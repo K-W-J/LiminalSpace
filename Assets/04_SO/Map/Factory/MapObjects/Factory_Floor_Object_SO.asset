@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5815c53fc1584277906622b5b81f793a, type: 3}
+  m_Name: Factory_Floor_Object_SO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 3189870627722000340, guid: f6b90e1052b85a54a9824805d0684836, type: 3}
+  - {fileID: 7364331898840799947, guid: b522bdc4aa9e4ab4aa1b37f5bed59c62, type: 3}
+  - {fileID: 6265253541986865168, guid: ce64cabd3d37a9746bc477a0b3886d6f, type: 3}
+  - {fileID: 1606675119201441621, guid: 182c6472c58dd734c98503f0c2a44484, type: 3}
+  - {fileID: 157954903849277278, guid: ddecb2d9beca70941adee6af9b76c11f, type: 3}
+  UncommonProbability: 40
+  UncommonObject:
+  - {fileID: 6503751084040305956, guid: 97c79da586973cc4990e8f6aa170b37b, type: 3}
+  - {fileID: 3984094532923348897, guid: 7061b464de92b204ea0794a0d97779dd, type: 3}
+  UseUncommon: 1
+  RareProbability: 11
+  RareObject: []
+  UseRare: 0
+  EpicProbability: 0
+  EpicObject: []
+  UseEpic: 0
+  LegendaryProbability: 0
+  LegendaryObject: []
+  UseLegendary: 0

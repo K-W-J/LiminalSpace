@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5815c53fc1584277906622b5b81f793a, type: 3}
+  m_Name: Factory_SmallRoom_Floor_Objects_SO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 157954903849277278, guid: ddecb2d9beca70941adee6af9b76c11f, type: 3}
+  - {fileID: 6265253541986865168, guid: ce64cabd3d37a9746bc477a0b3886d6f, type: 3}
+  - {fileID: 5658369564454546065, guid: bf62bff65323e6641aefa2545c275617, type: 3}
+  - {fileID: 1241647862753990856, guid: 22ca243ebb0cbbe4a8e7857f44dd93b4, type: 3}
+  UncommonProbability: 40
+  UncommonObject:
+  - {fileID: 7507577930722144660, guid: 83ffd6e5b1b2d2a4ca1fd267c44e196f, type: 3}
+  - {fileID: 7507577930722144660, guid: debfca214aef0b84b8711c0c601f3936, type: 3}
+  - {fileID: 7154197872412772742, guid: 15ca17e234f96ae45b1b0f0a7ba24cc8, type: 3}
+  - {fileID: 1096453943542208622, guid: 1cfe403b564818b4baaaf05550ee6fc2, type: 3}
+  UseUncommon: 1
+  RareProbability: 11
+  RareObject: []
+  UseRare: 0
+  EpicProbability: 0
+  EpicObject: []
+  UseEpic: 0
+  LegendaryProbability: 0
+  LegendaryObject: []
+  UseLegendary: 0
