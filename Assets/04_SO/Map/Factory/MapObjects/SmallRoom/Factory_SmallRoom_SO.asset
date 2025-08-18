@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2fffb398e54865a9d0d2450edb88fc, type: 3}
+  m_Name: Factory_SmallRoom_SO
+  m_EditorClassIdentifier: 
+  WallObjectGroup: {fileID: 11400000, guid: 36153cfff6e09e243aea8a2f357bf951, type: 2}
+  FloorObjectGroup: {fileID: 11400000, guid: d8333234de8fcd04d926dd00e01de0a8, type: 2}
+  CeilingObjectGroup: {fileID: 11400000, guid: 839a267ef92eb0f48ab6752bcbb93151, type: 2}

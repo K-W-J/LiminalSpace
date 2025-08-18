@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e9f53448814e9bac63fae0d852db15, type: 3}
+  m_Name: MallstoreDoor_MapSpawnGroupSO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 6923920238320545602, guid: 883c1ed10c5c1de4280954d167442aef, type: 3}
+  - {fileID: 3365022357759493141, guid: fc93ac19095cc634c8b4d2bf88b95f62, type: 3}
+  - {fileID: 1863805687992866631, guid: 6cb21ab609bac8a45b39f32008c6ebc4, type: 3}
+  - {fileID: 1816103716159931426, guid: 7cf43fa5ce58c3b4a9452c4ceb546d4b, type: 3}
+  UncommonProbability: 20
+  UncommonObject:
+  - {fileID: 200637477932922784, guid: 7e8ff34e05be3bd4fac2931e95166197, type: 3}
+  - {fileID: 6832152704392865758, guid: 0f8238b45d302d8438a9dea97465e260, type: 3}
+  - {fileID: 2648597392581438166, guid: fe42aa0c4cb44dc47b2b5f5fb8c8d3fa, type: 3}
+  - {fileID: 5224765745392692407, guid: c1ab45a6d57801d4bacb47b83735a344, type: 3}
+  - {fileID: 1629249900140473441, guid: f97c2bff4589ddb42a77f54653237beb, type: 3}
+  UseUncommon: 1
+  RareProbability: 15
+  RareObject:
+  - {fileID: 5132647178189732388, guid: 658645c8950d8d54e98da61d233e2016, type: 3}
+  - {fileID: 4198812548812375009, guid: 50610b13c2e01db43acd40cd49b173cb, type: 3}
+  UseRare: 1
+  EpicProbability: 0
+  EpicObject:
+  - {fileID: 5578025781381628585, guid: fdd8680d73bb20a449be120cc0d58ee1, type: 3}
+  - {fileID: 5918059665731471852, guid: 666a2f1f577db034d879cfb0603baf19, type: 3}
+  - {fileID: 4077102418803318049, guid: 4522246bf2ab2574a8f195c7b21557ad, type: 3}
+  - {fileID: 3640863819307359336, guid: a5e08e4d12660174d8cd65f1f89b84b3, type: 3}
+  UseEpic: 1
+  LegendaryProbability: 0
+  LegendaryObject: []
+  UseLegendary: 0
+  Wall: {fileID: 6668670408684695491, guid: 328ee9588a2b44f41847faa930f7b42c, type: 3}

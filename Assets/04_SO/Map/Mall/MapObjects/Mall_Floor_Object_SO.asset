@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5815c53fc1584277906622b5b81f793a, type: 3}
+  m_Name: Mall_Floor_Object_SO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 7364331898840799947, guid: b522bdc4aa9e4ab4aa1b37f5bed59c62, type: 3}
+  UncommonProbability: 40
+  UncommonObject: []
+  UseUncommon: 0
+  RareProbability: 11
+  RareObject: []
+  UseRare: 0
+  EpicProbability: 0
+  EpicObject: []
+  UseEpic: 0
+  LegendaryProbability: 0
+  LegendaryObject: []
+  UseLegendary: 0

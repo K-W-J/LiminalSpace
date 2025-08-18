@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e9f53448814e9bac63fae0d852db15, type: 3}
+  m_Name: Mall_MapSpawnGroupSO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 570375235607143807, guid: 77940dd261566274b8142a764cbe231e, type: 3}
+  UncommonProbability: 40
+  UncommonObject: []
+  UseUncommon: 0
+  RareProbability: 25
+  RareObject: []
+  UseRare: 0
+  EpicProbability: 20
+  EpicObject: []
+  UseEpic: 0
+  LegendaryProbability: 0
+  LegendaryObject: []
+  UseLegendary: 0
+  Wall: {fileID: 1770019989636505489, guid: e49207827a0ddd24ca27635cfba72a33, type: 3}

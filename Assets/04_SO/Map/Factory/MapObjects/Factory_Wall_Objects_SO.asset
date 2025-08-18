@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5815c53fc1584277906622b5b81f793a, type: 3}
+  m_Name: Factory_Wall_Objects_SO
+  m_EditorClassIdentifier: 
+  CommonObject:
+  - {fileID: 1867647225082638648, guid: 488966e44c088e14b9b244fa07555a3d, type: 3}
+  - {fileID: 960979886437088671, guid: ac7f99a70c25c944ca7938e44aafb2f2, type: 3}
+  - {fileID: 6423793410848149645, guid: 551a1abfd404dd247b2e6438a7225370, type: 3}
+  - {fileID: 157954903849277278, guid: ddecb2d9beca70941adee6af9b76c11f, type: 3}
+  UncommonProbability: 40
+  UncommonObject: []
+  UseUncommon: 0
+  RareProbability: 25
+  RareObject: []
+  UseRare: 0
+  EpicProbability: 10
+  EpicObject: []
+  UseEpic: 0
+  LegendaryProbability: 5
+  LegendaryObject: []
+  UseLegendary: 0
