@@ -23,7 +23,7 @@ namespace Code.Entities.FSM
     }
     
     [CreateAssetMenu(fileName = "StateSo", menuName = "SO/StateSo", order = 0)]
-    public class StateSo : ScriptableObject
+    public class StateSO : ScriptableObject
     {
         public EntityStateType stateType;
         public string className;

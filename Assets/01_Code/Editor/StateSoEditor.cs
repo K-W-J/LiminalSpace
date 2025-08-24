@@ -6,12 +6,13 @@ using UnityEditor;
 
 namespace Code.Editor
 {
-    [CustomEditor(typeof(StateSo))]
+    [CustomEditor(typeof(StateSO))]
     public class StateSoEditor : UnityEditor.Editor
     {
         private SerializedProperty _stateIndex;
         private SerializedProperty _animationName;
         private SerializedProperty _stateType;
+
         
         private void OnEnable()
         {
@@ -28,11 +29,11 @@ namespace Code.Editor
                     type.IsSubclassOf(typeof(EntityState))).Select(name => name.FullName).ToList();
 
             
-            StateSo state = (StateSo)target;
+            StateSO state = (StateSO)target;
             
             _stateIndex.intValue = EditorGUILayout.Popup("State Type", _stateIndex.intValue, StateType.ToArray());
             //_stateIndex.intValue = StateType.IndexOf(state.className);
-            
+
             EditorGUILayout.PropertyField(_stateType); 
             state.className = EditorGUILayout.TextField("Class Name",StateType[_stateIndex.intValue]);
             EditorGUILayout.PropertyField(_animationName);

@@ -8,7 +8,7 @@ namespace Code.Players.FSM
         private GroundChecker _groundChecker;
         private EntityAnimation _entityAnimation;
         private EntityStateMachine _entityStateMachine;
-        public PlayerFallState(Entities.Entity entity, EntityStateType stateType, int animationHash) : base(entity, stateType, animationHash)
+        public PlayerFallState(Entity entity, EntityStateType stateType, int animationHash) : base(entity, stateType, animationHash)
         {
             _groundChecker  = entity.GetCompo<GroundChecker>();
             _entityAnimation = entity.GetCompo<EntityAnimation>();

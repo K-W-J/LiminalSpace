@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Code.Define;
 using UnityEngine;
 using UnityEngine.Events;
 using Code.Entities.FSM;
@@ -28,6 +29,8 @@ namespace Code.Entities
             m_entityAnimation = GetCompo<EntityAnimation>();
             m_entityStateMachine = GetCompo<EntityStateMachine>();
             m_entityHealth = GetCompo<EntityHealth>();
+            
+            print(ItemCategory.Scrap.ToString());
         }
 
         private void AddComponent()

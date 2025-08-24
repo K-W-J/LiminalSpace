@@ -8,9 +8,9 @@ namespace Code.Entities.FSM
     {
         public EntityStateType CurrentState => _currentEntityState.StateType;
         
-        [SerializeField] private StateSo[] stateSo;
+        [SerializeField] private StateSO[] stateSo;
         
-        [SerializeField] private StateSo initEntityState;
+        [SerializeField] private StateSO initEntityState;
         
         private Dictionary<EntityStateType, EntityState> _states = new Dictionary<EntityStateType, EntityState>();
         
@@ -25,22 +25,18 @@ namespace Code.Entities.FSM
             _entity = entity;
         }
         
-        
         public void AfterInitialize()
         {
             foreach (var state in stateSo)
             {
                 Type type = Type.GetType(state.className);
                 
-                if (type != null)
-                {
-                    EntityState entityState = Activator.CreateInstance(type, _entity, state.stateType, state.animationHash) as EntityState;
-                    _states[state.stateType] = entityState;
-                }
+                EntityState entityState = Activator.CreateInstance(type, _entity, state.stateType, state.animationHash) as EntityState;
+                _states[state.stateType] = entityState;
             }
             
             _currentEntityState = GetState(initEntityState.stateType);
-            
+
             _currentEntityState.Enter();
         }
 

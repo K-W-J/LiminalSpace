@@ -8,7 +8,7 @@ namespace Code.Players.FSM
         private EntityAnimation _entityAnimation;
         private EntityStateMachine _entityStateMachine;
         private PlayerMovement _movement;
-        public PlayerJumpState(Entities.Entity entity, EntityStateType stateType, int animationHash) : base(entity, stateType, animationHash)
+        public PlayerJumpState(Entity entity, EntityStateType stateType, int animationHash) : base(entity, stateType, animationHash)
         {
             _movement = entity.GetCompo<PlayerMovement>();
             _entityAnimation = entity.GetCompo<EntityAnimation>();

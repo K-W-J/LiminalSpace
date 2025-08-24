@@ -28,7 +28,7 @@ namespace Code.Interactable
                 
                 isFirstOnFocus = false;
                 
-                _outline.OnFocus(_interactChecker.InteractCommand.GetGameObject());
+                _outline.OnFocus(_interactChecker.InteractCommand.gameObject);
             }
             else
             {

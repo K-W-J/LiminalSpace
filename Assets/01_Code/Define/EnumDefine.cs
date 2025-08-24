@@ -1,5 +1,5 @@
 ﻿
-namespace Code.Enums
+namespace Code.Define
 {
     public enum LevelType
     {
@@ -30,13 +30,26 @@ namespace Code.Enums
         Max
     }
     
-    public enum ItemType
+    public enum ItemCategory
     {
-        Noen = -1,
+        None = -1,
         
-        Fuel,
-        Resource,
-        Valuable,
+        Stone,
+        Wood,
+        Scrap,
+        
+        Max
+    }
+    
+    public enum PanelType
+    {
+        None = -1,
+        
+        GameOver,
+        Pause,
+        Setting,
+        Inventory,
+        InventoryBar,
         
         Max
     }

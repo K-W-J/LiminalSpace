@@ -4,7 +4,7 @@ using Code.Entities;
 
 namespace Code.Players
 {
-    public class PlayerUse : MonoBehaviour, IEntityComponent
+    public class PlayerUseHandler : MonoBehaviour, IEntityComponent
     {
         public bool IsUsing { get; private set; }
         
@@ -13,10 +13,7 @@ namespace Code.Players
         [SerializeField] private Transform _dropPos;
 
         private Player _agent;
-        private PlayerAmmo _ammo;
-        private PlayerInventory _inventory;
-        
-        private int _tempAmmo;
+        private PlayerInventoryBar _inventoryBar;
         
         private Transform _item;
         private bool _isFirstClicking;
@@ -25,8 +22,7 @@ namespace Code.Players
         {
             _agent = entity as Player;
             
-            _ammo = entity.GetCompo<PlayerAmmo>();
-            _inventory = entity.GetCompo<PlayerInventory>();
+            _inventoryBar = entity.GetCompo<PlayerInventoryBar>();
             
         }
 

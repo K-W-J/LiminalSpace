@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerFallState
   m_EditorClassIdentifier: 
   stateType: 7
-  className: _01_Scripts.Player.FSM.PlayerFallState
+  className: Code.Players.FSM.PlayerFallState
   animationName: FALL
   animationHash: -842714440
   _stateIndex: 0

@@ -4,12 +4,11 @@ using Code.Entities;
 
 namespace Code.Players
 {
-    public class PlayerInteract : MonoBehaviour, IEntityComponent
+    public class PlayerInteractHandler : MonoBehaviour, IEntityComponent
     {
         public bool IsInteracting { get; private set; }
         
         private Player _agent;
-        private PlayerInventory _inventroy;
         private InteractableChecker _interactableChecker;
         
         private bool _isFirstClicking;
