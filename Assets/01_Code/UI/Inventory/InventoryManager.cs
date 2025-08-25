@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Code.Interactable.PickUpable;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.UI.Inventory
 {
@@ -12,6 +14,9 @@ namespace Code.UI.Inventory
         
         private List<InventorySlot> _inventorySlots = new List<InventorySlot>();
 
+        private InventoryItem _currentItem;
+        private bool _isCurrentItemNull => _currentItem == null;
+
         private void Awake()
         {
             InventorySlot[] inventorySlots = GetComponentsInChildren<InventorySlot>();
@@ -21,6 +26,19 @@ namespace Code.UI.Inventory
             {
                 inventorySlot.InitInvenSlot(this);
             }
+        }
+
+        private void Update()
+        {
+            if(_isCurrentItemNull) return;
+            
+            if(_currentItem.IsItemPickUp)
+                _currentItem.transform.position = Mouse.current.position.ReadValue();
+        }
+
+        public void SetCurrentItem(InventoryItem item)
+        {
+            _currentItem = item;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis 
@@ -41,7 +59,11 @@ namespace Code.UI.Inventory
             if (putInableSlot.IsSlotEmpty)
             {
                 InventoryItem invenItem = CreateInvenItem(putInableSlot.transform);
-                InitInvenItem(invenItem, putInableSlot, pickUpable);
+                
+                invenItem.InitInvenItem(pickUpable, this, putInableSlot);
+                putInableSlot.InitInvenSlot(this);
+                putInableSlot.SetInvenSlotItem(invenItem);
+                
                 pickUpable.SetIsInvenPutIn(true);
             }
             else
@@ -63,12 +85,10 @@ namespace Code.UI.Inventory
             
             pickUpable.gameObject.SetActive(false);
         }
-        private void InitInvenItem(InventoryItem invenItem, InventorySlot putInableSlot, 
-            PickUpableObject pickUpable)
+        
+        public void PutInInventorySlot(InventoryItem invenItem)
         {
-            invenItem.InitInvenItem(pickUpable, putInableSlot);
-            putInableSlot.InitInvenSlot(this);
-            putInableSlot.SetInvenSlotItem(invenItem);
+            //InventorySlot putInableSlot = FindEmptyInventorySlot(invenItem);
         }
         
         public InventoryItem CreateInvenItem(Transform parent)

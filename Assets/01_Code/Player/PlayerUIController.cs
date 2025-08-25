@@ -6,7 +6,7 @@ using Code.Entities;
 
 namespace Code.Players
 {
-    public class PlayerUIHandler : MonoBehaviour, IEntityComponent
+    public class PlayerUIController : MonoBehaviour, IEntityComponent
     {
         [SerializeField] private RootUI _rootUI;
         

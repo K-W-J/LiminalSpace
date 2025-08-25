@@ -10,7 +10,7 @@ namespace Code.Interactable.PickUpable
         [field:SerializeField] public PickUpableSO PickUpableSO { get; private set; }
         [SerializeField] private int _startStack;
         public int CurrentStack => _currentStack;
-        private int _currentStack = 1;
+        private int _currentStack;
 
         public bool IsInvenPutIn => _isInvenPutIn;
         private bool _isInvenPutIn;

@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 1517236650349799146}
   - component: {fileID: 8363669069195027239}
   - component: {fileID: 6329255508320554687}
-  - component: {fileID: 2561520519442236826}
   - component: {fileID: 6113999956138664412}
+  - component: {fileID: 6370729243997462060}
+  - component: {fileID: 2561520519442236826}
   m_Layer: 5
-  m_Name: Item
+  m_Name: InventoryItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,6 +79,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6113999956138664412
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5861613161501639179}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6370729243997462060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5861613161501639179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08b7b85199c44299b19bf789b1c8836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _item: {fileID: 2561520519442236826}
 --- !u!114 &2561520519442236826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,18 +119,6 @@ MonoBehaviour:
   _itemIcon: {fileID: 6329255508320554687}
   _itemCountText: {fileID: 4157603859552012619}
   _canvasGroup: {fileID: 6113999956138664412}
---- !u!225 &6113999956138664412
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5861613161501639179}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &6940784470087565554
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

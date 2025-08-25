@@ -6,7 +6,7 @@ using Code.Interactable.PickUpable;
 
 namespace Code.UI.Inventory
 {
-    public class InventoryItem : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
+    public class InventoryItem : MonoBehaviour
     {
         [SerializeField] private Image _itemIcon;
         [SerializeField] private TextMeshProUGUI _itemCountText;
@@ -14,9 +14,10 @@ namespace Code.UI.Inventory
         public PickUpableObject CurrentPickUp => _currentPickUp;
         private PickUpableObject _currentPickUp;
         
-        private InventorySlot _currentSlot;
+        private InventoryManager _inventoryManager;
         
-        private PickUpableObject _halfPickUp;
+        public InventorySlot CurrentSlot => _currentSlot;
+        private InventorySlot _currentSlot;
         
         private Vector3 _returnPosition;
         
@@ -25,68 +26,141 @@ namespace Code.UI.Inventory
         public int CurrentStack => _currentStack;
         private int _currentStack;
         
-        public bool CanStack => _currentStack < _maximumStack;
-        
         public bool IsItemPickUp => _isItemPickUp;
         private bool _isItemPickUp;
         
-        public void OnPointerDown(PointerEventData eventData)
+        public bool IsItemPutDown => _isItemPutDown;
+        private bool _isItemPutDown;
+        
+        public bool CanStack => _currentStack < _maximumStack;
+        
+        public void OnBeginLeftDrag(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left) //아이템 들어올리기  
+            if (!_isItemPickUp)
             {
-                InputMouseDownLeft(eventData);
+                _isItemPickUp = true;
+                _isItemPutDown = false;
+                    
+                _inventoryManager.SetCurrentItem(this);
+                MoveInvenItem();
             }
-            else if (eventData.button == PointerEventData.InputButton.Right) //아이템 나눠서 들어올리기
+            else
             {
-                InputMouseDownRight(eventData);
+                _isItemPutDown = true;
+                
+                _canvasGroup.blocksRaycasts = false;
             }
         }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Left) //아이템 하나씩 놓기
-            {
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right) //아이템 전체 놓기
-            {
-                            
-            }
-        }
-
-        public void InputMouseDownRight(PointerEventData eventData)
+        
+        public void OnBeginRightDrag(PointerEventData eventData)
         {
             int halfA = _currentStack / 2;
+            if(halfA <= 0) return;
+                
             int halfB = _currentStack - halfA;
 
             _currentStack = halfA;
 
-            _halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
-            _halfPickUp.SetStack(halfB);
+            PickUpableObject halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
+            halfPickUp.SetStack(halfB);
 
             InventoryItem invenItem = _currentSlot.InvenManager.CreateInvenItem(transform.parent);
-            invenItem.InitInvenItem(_halfPickUp, null, 0, true);
+            invenItem.InitInvenItem(halfPickUp, _inventoryManager, _currentSlot, 0, true);
                 
-            _currentSlot.InvenManager.PutInInventorySlot(_halfPickUp);
                 
-            SetItemCountText();
+            invenItem.transform.position = _currentSlot.transform.position;
+            invenItem.transform.SetParent(transform.parent.parent.parent);
+                
+            _inventoryManager.SetCurrentItem(invenItem);
+                
+            SetStackText();
         }
         
-        public void InputMouseDownLeft(PointerEventData eventData)
+        private void HandleDragDrop(PointerEventData eventData)
         {
-            if (_isItemPickUp)
+            GameObject invenSlot = eventData.pointerCurrentRaycast.gameObject;
+
+            if (invenSlot == null)
             {
-                _isItemPickUp = false;
-                _canvasGroup.blocksRaycasts = false;
-                transform.SetParent(_currentSlot.transform);
+                RollBackCurrentSlot();
                 return;
             }
             
-            _isItemPickUp = true;
-            
-            transform.SetParent(transform.parent.parent.parent);
-            
-            _returnPosition = transform.position;
+            if (invenSlot.TryGetComponent<InventorySlot>(out var slot))
+            {
+                if(_currentSlot.InvenItem == this)
+                    _currentSlot.SetInvenSlotItem(null);
+                
+                _currentSlot = slot;
+                _currentSlot.SetInvenSlotItem(this);
+                
+                _returnPosition = _currentSlot.transform.position;
+                
+                return;
+            }
+            else if (invenSlot.TryGetComponent<InventoryItem>(out var item))
+            {
+                if (item.CurrentPickUp.PickUpableSO.ItemID == _currentPickUp.PickUpableSO.ItemID
+                    && item.CanStack)
+                {
+                    /*int remain = item.AddStack(pickUpable.CurrentStack);
+                    pickUpable.SetStack(-remain);*/
+                }
+                else
+                {
+                    SetCurrentSlot(item.CurrentSlot);
+
+                    item.MoveInvenItem();
+                    _inventoryManager.SetCurrentItem(item);
+                }
+                
+                return;
+            }
+
+            RollBackCurrentSlot();
         }
+
+        private void RollBackCurrentSlot()
+        {
+            _isItemPickUp = false;
+            _inventoryManager.SetCurrentItem(null);
+            transform.SetParent(_currentSlot.transform);
+            transform.position = _returnPosition;
+        }
+
+        private void MoveInvenItem()
+        {
+            _isItemPickUp = true;
+            transform.SetParent(transform.parent.parent.parent);
+            _returnPosition = _currentSlot.transform.position;
+        }
+        
+        private void SetCurrentSlot(InventorySlot item)
+        {
+            _currentSlot.SetInvenSlotItem(null);
+            _currentSlot = item;
+            _currentSlot.SetInvenSlotItem(this);
+            
+            transform.SetParent(_currentSlot.transform);
+            _returnPosition = _currentSlot.transform.position;
+        }
+        
+        public void OnEndLeftDrag(PointerEventData eventData)
+        { 
+            HandleDragDrop(eventData);
+
+            _canvasGroup.blocksRaycasts = true;
+            
+            _isItemPickUp = false;
+            transform.SetParent(_currentSlot.transform);
+            transform.position = _returnPosition;
+        }
+        
+        public void OnEndRightDrag(PointerEventData eventData)
+        {
+            
+        }
+
         
         public int AddStack(int stack)
         {
@@ -103,13 +177,15 @@ namespace Code.UI.Inventory
                 currentStack -= _maximumStack;
             }
             
-            SetItemCountText();
+            SetStackText();
             
             return currentStack;
         }
         
-        public void InitInvenItem(PickUpableObject pickUpable, InventorySlot inventoryItem = null, int currentStack = 0, bool isItemPickUp = false)
+        public void InitInvenItem(PickUpableObject pickUpable, InventoryManager inventoryManager,
+            InventorySlot inventoryItem = null, int currentStack = 0, bool isItemPickUp = false)
         {
+            _inventoryManager = inventoryManager;
             _currentSlot = inventoryItem;
             
             _currentPickUp = pickUpable;
@@ -121,15 +197,13 @@ namespace Code.UI.Inventory
                 _currentStack = currentStack;
             
             _isItemPickUp = isItemPickUp;
+            _isItemPutDown = isItemPickUp;
             
             _itemIcon.sprite = pickUpable.PickUpableSO.ItemIcon;
             
-            SetItemCountText();
+            SetStackText();
         }
 
-        private void SetItemCountText()
-        {
-            _itemCountText.text = _currentStack.ToString();
-        }
+        private void SetStackText() => _itemCountText.text = _currentStack.ToString();
     }
 }

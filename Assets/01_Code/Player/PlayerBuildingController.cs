@@ -2,7 +2,7 @@
 
 namespace Code.Players
 {
-    public class PlayerBuildingHandler : MonoBehaviour
+    public class PlayerBuildingController : MonoBehaviour
     {
         [SerializeField] private Player _agent;
         [SerializeField] private Transform _buildingPos;

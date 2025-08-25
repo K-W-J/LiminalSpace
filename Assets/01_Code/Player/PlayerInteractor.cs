@@ -4,7 +4,7 @@ using Code.Entities;
 
 namespace Code.Players
 {
-    public class PlayerInteractHandler : MonoBehaviour, IEntityComponent
+    public class PlayerInteractor : MonoBehaviour, IEntityComponent
     {
         public bool IsInteracting { get; private set; }
         
