@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using Code.Define;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Code.UI.Inventory
 {
     public class InventoryItemDragHandler : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
     {
-        [SerializeField] private InventoryItem _item;
+        [SerializeField] private InventoryItem _invenItem;
         
         public void OnPointerDown(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left) //아이템 들어올리기
             {
-                _item.OnBeginLeftDrag(eventData);
+                print(2424);
+                _invenItem.OnBeginLeftDrag(eventData);
             }
             else if (eventData.button == PointerEventData.InputButton.Right) //아이템 나눠서 들어올리기
             {
-                _item.OnBeginRightDrag(eventData);
+                _invenItem.OnBeginRightDrag(eventData);
             }
         }
 
@@ -23,13 +25,13 @@ namespace Code.UI.Inventory
         {
             if (eventData.button == PointerEventData.InputButton.Left) //아이템 전체 합치기, 아이템 바꾸기  
             {
-                if (!_item.IsItemPutDown) return;
+                if (_invenItem.DragState != ItemDragState.Placing) return;
                 
-                _item.OnEndLeftDrag(eventData);
+                _invenItem.OnEndLeftDrag(eventData);
             }
             else if (eventData.button == PointerEventData.InputButton.Right)  //아이템 하나씩 합치기, 아이템 바꾸기
             {
-                            
+                _invenItem.OnEndRightDrag(eventData);
             }
         }
     }

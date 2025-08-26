@@ -10,7 +10,6 @@ namespace Code.Enemy
         private void FixedUpdate()
         {
             _agent.SetDestination(_target.position);
-            print(_target.position);
         }
     }
 }

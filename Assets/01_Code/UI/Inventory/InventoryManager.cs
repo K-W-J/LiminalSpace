@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Code.Interactable.PickUpable;
+using Code.Define;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Code.Interactable.PickUpable;
 
 namespace Code.UI.Inventory
 {
@@ -32,7 +32,7 @@ namespace Code.UI.Inventory
         {
             if(_isCurrentItemNull) return;
             
-            if(_currentItem.IsItemPickUp)
+            if(_currentItem.DragState == ItemDragState.PickedUp)
                 _currentItem.transform.position = Mouse.current.position.ReadValue();
         }
 
@@ -61,7 +61,6 @@ namespace Code.UI.Inventory
                 InventoryItem invenItem = CreateInvenItem(putInableSlot.transform);
                 
                 invenItem.InitInvenItem(pickUpable, this, putInableSlot);
-                putInableSlot.InitInvenSlot(this);
                 putInableSlot.SetInvenSlotItem(invenItem);
                 
                 pickUpable.SetIsInvenPutIn(true);
@@ -69,7 +68,7 @@ namespace Code.UI.Inventory
             else
             {
                 int remain = putInableSlot.InvenItem.AddStack(pickUpable.CurrentStack);
-                pickUpable.SetStack(-remain);
+                pickUpable.AddStack(-remain);
 
                 if (pickUpable.IsInvenPutIn)
                 {
@@ -88,7 +87,39 @@ namespace Code.UI.Inventory
         
         public void PutInInventorySlot(InventoryItem invenItem)
         {
-            //InventorySlot putInableSlot = FindEmptyInventorySlot(invenItem);
+            PickUpableObject pickUpable = invenItem.CurrentPickUp;
+            
+            InventorySlot putInableSlot = FindEmptyInventorySlot(pickUpable);
+            
+            if (putInableSlot == null)
+            {
+                if (pickUpable.IsInvenPutIn)
+                {
+                    //Take Out
+                }
+                
+                return;
+            }
+
+            if (putInableSlot.IsSlotEmpty)
+            {
+                invenItem.SetCurrentSlot(putInableSlot);
+            }
+            else
+            {
+                int remain = putInableSlot.InvenItem.AddStack(pickUpable.CurrentStack);
+                pickUpable.AddStack(-remain);
+
+                if (pickUpable.IsInvenPutIn)
+                {
+                    Destroy(pickUpable);
+                }
+                
+                if (remain > 0)
+                {
+                    PutInInventorySlot(pickUpable);
+                }
+            }
         }
         
         public InventoryItem CreateInvenItem(Transform parent)

@@ -30,6 +30,13 @@ namespace Code.Define
         Max
     }
     
+    public enum ItemDragState
+    {
+        None,        // 기본 상태
+        PickedUp,    // 들어올린 상태 (첫 클릭)
+        Placing      // 놓는 중 (두 번째 클릭에서 포인터 뗄 때)
+    }
+    
     public enum ItemCategory
     {
         None = -1,

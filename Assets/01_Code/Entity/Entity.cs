@@ -29,8 +29,6 @@ namespace Code.Entities
             m_entityAnimation = GetCompo<EntityAnimation>();
             m_entityStateMachine = GetCompo<EntityStateMachine>();
             m_entityHealth = GetCompo<EntityHealth>();
-            
-            print(ItemCategory.Scrap.ToString());
         }
 
         private void AddComponent()

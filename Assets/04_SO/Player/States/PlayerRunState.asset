@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerRunState
   m_EditorClassIdentifier: 
   stateType: 2
-  className: _01_Scripts.Player.FSM.PlayerRunState
+  className: Code.Players.FSM.PlayerRunState
   animationName: RUN
   animationHash: -959322550
   _stateIndex: 3

@@ -32,7 +32,7 @@ namespace Code.UI.Inventory
                 _currentItem.InputMouseDownLeft(_currentItem.gameObject);
                 
                 /*_halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
-                _halfPickUp.SetStack(halfB);
+                _halfPickUp.AddStack(halfB);
 
                 InventoryItem invenItem = _currentSlot.InvenManager.CreateInvenItem(transform.parent);
                 invenItem.InitInvenItem(_halfPickUp, null, 0, true);

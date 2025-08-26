@@ -15,8 +15,7 @@ namespace Code.Interactable.PickUpable
         public bool IsInvenPutIn => _isInvenPutIn;
         private bool _isInvenPutIn;
 
-        private void Awake()
-        {
+        private void Awake() {
             if(_startStack > 1)
                 _currentStack = _startStack;
         }
@@ -26,7 +25,7 @@ namespace Code.Interactable.PickUpable
             _isInvenPutIn = isInvenPutIn;
         }
 
-        public void SetStack(int stack)
+        public void AddStack(int stack)
         {
             _currentStack += stack;
         }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerIdleState
   m_EditorClassIdentifier: 
   stateType: 0
-  className: _01_Scripts.Player.FSM.PlayerIdleState
+  className: Code.Players.FSM.PlayerIdleState
   animationName: IDLE
   animationHash: -357476191
   _stateIndex: 1
