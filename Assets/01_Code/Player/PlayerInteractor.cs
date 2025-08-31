@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using Code.UI.Inventory;
-using Code.Entities;
+using KWJ.Code.Entities;
 
-namespace Code.Players
+namespace KWJ.Code.Players
 {
     public class PlayerInteractor : MonoBehaviour, IEntityComponent
     {

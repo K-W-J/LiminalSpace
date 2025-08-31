@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Code.Entities.FSM
+namespace KWJ.Code.Entities.FSM
 {
     public enum EntityStateType
     {

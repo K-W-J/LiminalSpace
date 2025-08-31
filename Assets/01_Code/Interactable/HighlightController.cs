@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using Code.Entities;
-using Code.Players;
+using KWJ.Code.Entities;
+using KWJ.Code.Players;
 
-namespace Code.Interactable
+namespace KWJ.Code.Interactable
 {
     public class HighlightController : MonoBehaviour, IEntityComponent
     {

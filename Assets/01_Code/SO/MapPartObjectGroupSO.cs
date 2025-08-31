@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.SO
+namespace KWJ.Code.SO
 {
     [CreateAssetMenu(fileName = "MapObjectSO", menuName = "SO/MapObjectSO", order = 0)]
     public class MapPartObjectGroupSO : ScriptableObject

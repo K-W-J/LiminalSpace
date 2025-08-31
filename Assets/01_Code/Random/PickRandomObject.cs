@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Random
+namespace KWJ.Code.Random
 {
     public class PickRandomObject
     {

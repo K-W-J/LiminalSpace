@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Code.Define;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using Code.Interactable.PickUpable;
+using UnityEngine;
+using KWJ.Code.Define;
+using KWJ.Code.Interactable.PickUpable;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
     //인벤토리의 전체 Slot 관리, Slot 컨트롤 및 Item 생성
     public class InventoryManager : MonoBehaviour
@@ -32,7 +32,7 @@ namespace Code.UI.Inventory
         {
             if(_isCurrentItemNull) return;
             
-            if(_currentItem.DragState == ItemDragState.PickedUp)
+            if(_currentItem.DragStateType == Define.ItemDragStateType.PickedUp)
                 _currentItem.transform.position = Mouse.current.position.ReadValue();
         }
 
@@ -62,12 +62,10 @@ namespace Code.UI.Inventory
                 
                 invenItem.InitInvenItem(pickUpable, this, putInableSlot);
                 putInableSlot.SetInvenSlotItem(invenItem);
-                
-                pickUpable.SetIsInvenPutIn(true);
             }
             else
             {
-                int remain = putInableSlot.InvenItem.AddStack(pickUpable.CurrentStack);
+                int remain = putInableSlot.InvenItem.ModifyStack(pickUpable.CurrentStack);
                 pickUpable.AddStack(-remain);
 
                 if (pickUpable.IsInvenPutIn)
@@ -107,17 +105,17 @@ namespace Code.UI.Inventory
             }
             else
             {
-                int remain = putInableSlot.InvenItem.AddStack(pickUpable.CurrentStack);
-                pickUpable.AddStack(-remain);
-
-                if (pickUpable.IsInvenPutIn)
+                int remain = putInableSlot.InvenItem.ModifyStack(invenItem.CurrentStack);
+                invenItem.ModifyStack(-remain);
+                
+                if (remain == 0)
                 {
-                    Destroy(pickUpable);
+                    Destroy(invenItem.gameObject);
                 }
                 
                 if (remain > 0)
                 {
-                    PutInInventorySlot(pickUpable);
+                    PutInInventorySlot(invenItem);
                 }
             }
         }

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Code.Entities.FSM;
+using KWJ.Code.Entities.FSM;
 using UnityEditor;
 
-namespace Code.Editor
+namespace KWJ.Code.Editor
 {
     [CustomEditor(typeof(StateSO))]
     public class StateSoEditor : UnityEditor.Editor

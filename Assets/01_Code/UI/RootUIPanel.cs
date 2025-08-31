@@ -1,7 +1,7 @@
-﻿using Code.Define;
+﻿using KWJ.Code.Define;
 using UnityEngine;
 
-namespace Code.UI
+namespace KWJ.Code.UI
 {
     public class RootUIPanel : MonoBehaviour
     {

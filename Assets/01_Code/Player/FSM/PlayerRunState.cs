@@ -1,7 +1,7 @@
-﻿using Code.Entities;
-using Code.Entities.FSM;
+﻿using KWJ.Code.Entities;
+using KWJ.Code.Entities.FSM;
 
-namespace Code.Players.FSM
+namespace KWJ.Code.Players.FSM
 {
     public class PlayerRunState : PlayerState
     {

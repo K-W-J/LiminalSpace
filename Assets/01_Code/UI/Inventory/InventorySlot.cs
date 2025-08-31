@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine.UI;
 using UnityEngine;
-using Code.Interactable.PickUpable;
+using KWJ.Code.Interactable.PickUpable;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
     [Serializable]
     public class InventorySlot : MonoBehaviour

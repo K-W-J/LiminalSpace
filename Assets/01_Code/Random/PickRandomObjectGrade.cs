@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Code.SO;
+using KWJ.Code.SO;
 using UnityEngine;
 
-namespace Code.Random
+namespace KWJ.Code.Random
 {
     public enum GRADE
     {
@@ -112,7 +112,7 @@ namespace Code.Random
                 case GRADE.None:
                 case GRADE.Max:
                 {
-                    Debug.LogWarning("None 이거나 Max 이다.");
+                    Debug.LogWarning("Default 이거나 Max 이다.");
                     return null;
                 }
                 default:

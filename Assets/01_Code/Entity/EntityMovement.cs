@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Code.Entities
+namespace KWJ.Code.Entities
 {
     //적의 모든 육체적 움직임 관리.
     public class EntityMovement : MonoBehaviour, IEntityComponent

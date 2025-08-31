@@ -1,10 +1,10 @@
 ﻿using Unity.Cinemachine;
 using UnityEngine;
 using Settings.InputSystem;
-using Code.Entities;
-using Code.SO;
+using KWJ.Code.Entities;
+using KWJ.Code.SO;
 
-namespace Code.Players
+namespace KWJ.Code.Players
 {
     public class Player : Entity
     {

@@ -1,9 +1,9 @@
-﻿using Code.Interactable.PickUpable;
+﻿using KWJ.Code.Interactable.PickUpable;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
     public class PlayerInventoryInput : MonoBehaviour//, IPointerDownHandler , IPointerUpHandler
     {
@@ -32,7 +32,7 @@ namespace Code.UI.Inventory
                 _currentItem.InputMouseDownLeft(_currentItem.gameObject);
                 
                 /*_halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
-                _halfPickUp.AddStack(halfB);
+                _halfPickUp.ModifyStack(halfB);
 
                 InventoryItem invenItem = _currentSlot.InvenManager.CreateInvenItem(transform.parent);
                 invenItem.InitInvenItem(_halfPickUp, null, 0, true);

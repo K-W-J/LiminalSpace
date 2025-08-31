@@ -1,6 +1,6 @@
-﻿using Code.Entities.FSM;
+﻿using KWJ.Code.Entities.FSM;
 
-namespace Code.Players.FSM
+namespace KWJ.Code.Players.FSM
 {
     public class PlayerState : EntityState
     {

@@ -1,10 +1,10 @@
-﻿using Code.Define;
+﻿using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using KWJ.Code.Define;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
-    public class InventoryItemDragHandler : MonoBehaviour, IPointerDownHandler , IPointerUpHandler
+    public class InventoryItemDragHandler : MonoBehaviour, IPointerDownHandler , IPointerUpHandler, IDragHandler
     {
         [SerializeField] private InventoryItem _invenItem;
         
@@ -12,27 +12,39 @@ namespace Code.UI.Inventory
         {
             if (eventData.button == PointerEventData.InputButton.Left) //아이템 들어올리기
             {
-                print(2424);
+                _invenItem.ChangeDragState();
                 _invenItem.OnBeginLeftDrag(eventData);
             }
             else if (eventData.button == PointerEventData.InputButton.Right) //아이템 나눠서 들어올리기
             {
-                _invenItem.OnBeginRightDrag(eventData);
+                if (_invenItem.DragStateType == ItemDragStateType.Default)
+                {
+                    _invenItem.OnBeginRightDrag(eventData);
+                }
+                else
+                {
+                    _invenItem.ChangeDragState();
+                }
             }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if(_invenItem.DragStateType != ItemDragStateType.Placing) return;
+            
             if (eventData.button == PointerEventData.InputButton.Left) //아이템 전체 합치기, 아이템 바꾸기  
             {
-                if (_invenItem.DragState != ItemDragState.Placing) return;
-                
                 _invenItem.OnEndLeftDrag(eventData);
             }
             else if (eventData.button == PointerEventData.InputButton.Right)  //아이템 하나씩 합치기, 아이템 바꾸기
             {
                 _invenItem.OnEndRightDrag(eventData);
             }
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            
         }
     }
 }

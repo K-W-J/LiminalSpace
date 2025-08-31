@@ -1,9 +1,9 @@
-﻿using Code.Entities;
-using Code.SO;
-using Code.UI.Inventory;
+﻿using KWJ.Code.Entities;
+using KWJ.Code.SO;
+using KWJ.Code.UI.Inventory;
 using UnityEngine;
 
-namespace Code.Interactable.PickUpable
+namespace KWJ.Code.Interactable.PickUpable
 {
     public class PickUpableObject : InteractCommand
     {

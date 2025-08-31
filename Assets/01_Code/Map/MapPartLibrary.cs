@@ -1,7 +1,7 @@
-﻿using Code.SO;
+﻿using KWJ.Code.SO;
 using UnityEngine;
 
-namespace Code.Map
+namespace KWJ.Code.Map
 {
     public class MapPartLibrary : MonoBehaviour
     {

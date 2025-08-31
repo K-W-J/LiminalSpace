@@ -1,6 +1,6 @@
-﻿using Code.Entities;
+﻿using KWJ.Code.Entities;
 
-namespace Code.Interactable
+namespace KWJ.Code.Interactable
 {
     public class TestOutlineObject : InteractCommand
     {

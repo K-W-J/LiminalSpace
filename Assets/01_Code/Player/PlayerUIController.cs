@@ -1,10 +1,10 @@
-﻿using Code.Define;
-using UnityEngine;
-using Code.UI.Inventory;
-using Code.UI;
-using Code.Entities;
+﻿using UnityEngine;
+using KWJ.Code.Define;
+using KWJ.Code.Entities;
+using KWJ.Code.UI;
+using KWJ.Code.UI.Inventory;
 
-namespace Code.Players
+namespace KWJ.Code.Players
 {
     public class PlayerUIController : MonoBehaviour, IEntityComponent
     {

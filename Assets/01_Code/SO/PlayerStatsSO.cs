@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.SO
+namespace KWJ.Code.SO
 {
     [CreateAssetMenu(fileName = "PlayerStatsSO", menuName = "SO/Player/PlayerStatsSO", order = 0)]
     public class PlayerStatsSO : ScriptableObject

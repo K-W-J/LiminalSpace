@@ -1,5 +1,5 @@
 ﻿
-namespace Code.Entities.FSM
+namespace KWJ.Code.Entities.FSM
 {
     public class EntityState
     {

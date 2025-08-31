@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Code.Entities;
+using KWJ.Code.Entities;
 
-namespace Code.Interactable
+namespace KWJ.Code.Interactable
 {
     public abstract class InteractCommand : MonoBehaviour
     {

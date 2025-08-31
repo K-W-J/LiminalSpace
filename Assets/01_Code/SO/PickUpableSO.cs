@@ -1,8 +1,8 @@
 ﻿using System;
-using Code.Define;
+using KWJ.Code.Define;
 using UnityEngine;
 
-namespace Code.SO
+namespace KWJ.Code.SO
 {
     [CreateAssetMenu(fileName = "PickUpableSO", menuName = "SO/PickUpableSO", order = 0)]
     public class PickUpableSO : ScriptableObject

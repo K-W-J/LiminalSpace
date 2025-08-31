@@ -1,5 +1,5 @@
 ﻿
-namespace Code.Define
+namespace KWJ.Code.Define
 {
     public enum LevelType
     {
@@ -30,11 +30,15 @@ namespace Code.Define
         Max
     }
     
-    public enum ItemDragState
+    public enum ItemDragStateType
     {
-        None,        // 기본 상태
+        None = -1,
+        
+        Default,        // 기본 상태
         PickedUp,    // 들어올린 상태 (첫 클릭)
-        Placing      // 놓는 중 (두 번째 클릭에서 포인터 뗄 때)
+        Placing,      // 놓는 중 (두 번째 클릭에서 포인터 뗄 때)
+        
+        Max
     }
     
     public enum ItemCategory

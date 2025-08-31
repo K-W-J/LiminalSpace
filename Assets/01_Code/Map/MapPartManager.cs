@@ -2,10 +2,10 @@
 using System.Linq;
 using UnityEngine.AI;
 using UnityEngine;
-using Code.Random;
-using Code.SO;
+using KWJ.Code.Random;
+using KWJ.Code.SO;
 
-namespace Code.Map
+namespace KWJ.Code.Map
 
 {
     public class MapPartManager : MonoBehaviour

@@ -1,8 +1,8 @@
-using Code.Entities;
-using Code.Interactable.PickUpable;
+using KWJ.Code.Interactable.PickUpable;
+using KWJ.Code.Entities;
 using UnityEngine;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
     public class PlayerInventoryBar : RootUIPanel, IEntityComponent
     {

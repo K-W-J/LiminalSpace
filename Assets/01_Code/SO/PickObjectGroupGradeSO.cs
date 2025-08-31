@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.SO
+namespace KWJ.Code.SO
 {
     [CreateAssetMenu(fileName = "ObjectGradeSO", menuName = "SO/ObjectGrade", order = 0)]
     public class PickObjectGroupGradeSO : ScriptableObject

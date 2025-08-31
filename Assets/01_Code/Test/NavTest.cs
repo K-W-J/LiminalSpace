@@ -4,7 +4,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Code.Test
+namespace KWJ.Code.Test
 {
     public class NavTest : MonoBehaviour
     {

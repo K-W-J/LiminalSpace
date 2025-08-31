@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.Core
+namespace KWJ.Code.Core
 {
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {

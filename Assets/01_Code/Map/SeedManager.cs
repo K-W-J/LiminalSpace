@@ -1,8 +1,8 @@
 ﻿using System;
-using Code.Core;
+using KWJ.Code.Core;
 using UnityEngine;
 
-namespace Code.Map
+namespace KWJ.Code.Map
 {
     public class SeedManager : MonoSingleton<SeedManager>
     {

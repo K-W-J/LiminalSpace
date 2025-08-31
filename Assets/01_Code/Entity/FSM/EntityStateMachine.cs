@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Code.Entities.FSM
+namespace KWJ.Code.Entities.FSM
 {
     public class EntityStateMachine : MonoBehaviour, IEntityComponent, IAfterInitialize
     {

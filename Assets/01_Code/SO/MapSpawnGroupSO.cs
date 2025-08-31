@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.SO
+namespace KWJ.Code.SO
 {
     [CreateAssetMenu(fileName = "MapSpawnGroupSO", menuName = "SO/MapSpawn", order = 0)]
     public class MapSpawnGroupSO : PickObjectGroupGradeSO

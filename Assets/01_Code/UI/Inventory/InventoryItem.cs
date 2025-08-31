@@ -1,11 +1,11 @@
-﻿using Code.Define;
+﻿using KWJ.Code.Define;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using Code.Interactable.PickUpable;
+using KWJ.Code.Interactable.PickUpable;
 
-namespace Code.UI.Inventory
+namespace KWJ.Code.UI.Inventory
 {
     public class InventoryItem : MonoBehaviour
     {
@@ -26,25 +26,14 @@ namespace Code.UI.Inventory
         public int CurrentStack => _currentStack;
         private int _currentStack;
         
-        //첫번재 클릭 다음에 두번째 클릭하고 땔 때에 행동을 실행하기 위해 필요
-        public ItemDragState DragState => _dragState;
-        private ItemDragState _dragState = ItemDragState.None;
+        //첫 클릭 다음에 두번째 클릭하고 땔 때에 행동을 실행하기 위해 필요
+        public ItemDragStateType DragStateType => _dragStateType;
+        private ItemDragStateType _dragStateType = ItemDragStateType.Default;
         public bool CanStack => _currentStack < _maximumStack;
         
         public void OnBeginLeftDrag(PointerEventData eventData)
         {
-            if (_dragState == ItemDragState.None)
-            {
-                _dragState = ItemDragState.PickedUp;
-                    
-                _inventoryManager.SetCurrentItem(this);
-                MoveInvenItem();
-            }
-            else if(_dragState == ItemDragState.PickedUp)
-            {
-                _dragState = ItemDragState.Placing;
-                _canvasGroup.blocksRaycasts = false;
-            }
+
         }
         
         public void OnBeginRightDrag(PointerEventData eventData)
@@ -53,15 +42,13 @@ namespace Code.UI.Inventory
             if(halfA <= 0) return;
                 
             int halfB = _currentStack - halfA;
-
             _currentStack = halfA;
 
             PickUpableObject halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
             halfPickUp.AddStack(halfB);
 
             InventoryItem invenItem = _inventoryManager.CreateInvenItem(transform.parent);
-            invenItem.InitInvenItem(halfPickUp, _inventoryManager, _currentSlot, 0, true);
-                
+            invenItem.InitInvenItem(halfPickUp, _inventoryManager, null, 0, true);
                 
             invenItem.transform.position = _currentSlot.transform.position;
             invenItem.transform.SetParent(transform.parent.parent.parent);
@@ -71,42 +58,82 @@ namespace Code.UI.Inventory
             SetStackText();
         }
         
-        private void HandleDragDrop(PointerEventData eventData)
+        private void HandleDragDrop(PointerEventData eventData, PointerEventData.InputButton button)
         {
             GameObject invenSlot = eventData.pointerCurrentRaycast.gameObject;
 
             if (invenSlot == null)
             {
                 RollBackCurrentSlot();
+                
                 return;
             }
             
             if (invenSlot.TryGetComponent<InventorySlot>(out var slot))
             {
-                if(_currentSlot.InvenItem == this)
-                    _currentSlot.SetInvenSlotItem(null);
-                
-                _currentSlot = slot;
-                _currentSlot.SetInvenSlotItem(this);
-                
-                _returnPosition = _currentSlot.transform.position;
+                if (button == PointerEventData.InputButton.Left)
+                {
+                    if (_currentSlot != null)
+                    {
+                        if(_currentSlot.InvenItem == this)
+                            _currentSlot.SetInvenSlotItem(null);
+                    }
+                    
+                    _currentSlot = slot;
+                    _currentSlot.SetInvenSlotItem(this);
+
+                    _returnPosition = _currentSlot.transform.position;
+
+                    RollBackCurrentSlot();
+                }
+                else
+                {
+                    PickUpableObject halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
+                    halfPickUp.AddStack(1);
+
+                    InventoryItem invenItem = _inventoryManager.CreateInvenItem(slot.transform);
+                    invenItem.InitInvenItem(halfPickUp, _inventoryManager, _currentSlot);
+                    
+                    ModifyStack(-1);
+                    
+                    _dragStateType = ItemDragStateType.PickedUp;
+                    _canvasGroup.blocksRaycasts = true;
+                }
                 
                 return;
             }
             else if (invenSlot.TryGetComponent<InventoryItem>(out var item))
             {
-                if (item.CurrentPickUp.PickUpableSO.ItemID == _currentPickUp.PickUpableSO.ItemID
-                    && item.CanStack && CanStack)
+                if (item.CurrentPickUp.PickUpableSO.ItemID == _currentPickUp.PickUpableSO.ItemID && item.CanStack)
                 {
-                    int remain = item.AddStack(CurrentStack);
-
-                    if (remain > 0)
+                    if (button == PointerEventData.InputButton.Left)
                     {
-                        AddStack(remain, true);
-                        _dragState = ItemDragState.PickedUp;
+                        int remain = item.ModifyStack(CurrentStack);
+                        
+                        if (remain > 0)
+                        {
+                            ModifyStack(remain, true);
+                            _dragStateType = ItemDragStateType.PickedUp;
+                            _canvasGroup.blocksRaycasts = true;
+                        }
+                        else
+                            Destroy(gameObject);
+                        
+                        
                     }
                     else
-                        Destroy(gameObject);
+                    {
+                        item.ModifyStack(1);
+                        ModifyStack(-1);
+                        
+                        if (_currentStack > 0)
+                        {
+                            _dragStateType = ItemDragStateType.PickedUp;
+                            _canvasGroup.blocksRaycasts = true;
+                        }
+                        else
+                            Destroy(gameObject);
+                    }
                 }
                 else
                 {
@@ -115,8 +142,34 @@ namespace Code.UI.Inventory
                 
                 return;
             }
-
+            
             RollBackCurrentSlot();
+        }
+        
+        public void OnEndLeftDrag(PointerEventData eventData)
+        { 
+            HandleDragDrop(eventData, PointerEventData.InputButton.Left);
+        }
+        
+        public void OnEndRightDrag(PointerEventData eventData)
+        {
+            HandleDragDrop(eventData, PointerEventData.InputButton.Right);
+        }
+
+        public void ChangeDragState()
+        {
+            if (_dragStateType == ItemDragStateType.Default)
+            {
+                _dragStateType = ItemDragStateType.PickedUp;
+                    
+                _inventoryManager.SetCurrentItem(this);
+                MoveInvenItem();
+            }
+            else if(_dragStateType == ItemDragStateType.PickedUp)
+            {
+                _dragStateType = ItemDragStateType.Placing;
+                _canvasGroup.blocksRaycasts = false;
+            }
         }
 
         private void SwapSlot(InventoryItem item)
@@ -129,16 +182,19 @@ namespace Code.UI.Inventory
 
         private void RollBackCurrentSlot()
         {
-            _dragState = ItemDragState.None;
+            _dragStateType = ItemDragStateType.Default;
             _inventoryManager.SetCurrentItem(null);
             
-            transform.SetParent(_currentSlot.transform);
+            if(_currentSlot != null)
+                transform.SetParent(_currentSlot.transform);
+            
             transform.position = _returnPosition;
+            _canvasGroup.blocksRaycasts = true;
         }
 
         private void MoveInvenItem()
         {
-            _dragState = ItemDragState.PickedUp;
+            _dragStateType = ItemDragStateType.PickedUp;
             transform.SetParent(transform.parent.parent.parent);
             _returnPosition = _currentSlot.transform.position;
         }
@@ -154,29 +210,8 @@ namespace Code.UI.Inventory
             transform.SetParent(_currentSlot.transform);
             _returnPosition = _currentSlot.transform.position;
         }
-        
-        public void OnEndLeftDrag(PointerEventData eventData)
-        { 
-            HandleDragDrop(eventData);
-            
-            if(_dragState == ItemDragState.PickedUp) return;
-            
-            _canvasGroup.blocksRaycasts = true;
-            _dragState = ItemDragState.None;
-            
-            transform.SetParent(_currentSlot.transform);
-            transform.position = _returnPosition;
 
-        }
-        
-        public void OnEndRightDrag(PointerEventData eventData)
-        {
-            if(_currentSlot == null)
-                _inventoryManager.PutInInventorySlot(this);
-        }
-
-        
-        public int AddStack(int stack, bool isStackReset = false)
+        public int ModifyStack(int stack, bool isStackReset = false)
         {
             if (isStackReset)
                 _currentStack = 0;
@@ -200,12 +235,16 @@ namespace Code.UI.Inventory
         }
         
         public void InitInvenItem(PickUpableObject pickUpable, InventoryManager inventoryManager,
-            InventorySlot inventoryItem = null, int currentStack = 0, bool isItemPickUp = false)
+            InventorySlot inventorySlot = null, int currentStack = 0, bool isItemPickUp = false)
         {
             _inventoryManager = inventoryManager;
-            _currentSlot = inventoryItem;
-            
+            _currentSlot = inventorySlot;
+
             _currentPickUp = pickUpable;
+            _currentPickUp.transform.SetParent(transform);
+            
+            _currentPickUp.SetIsInvenPutIn(true);
+            
             _maximumStack = pickUpable.PickUpableSO.MaximumStack;
             
             if(currentStack == 0)
@@ -213,7 +252,8 @@ namespace Code.UI.Inventory
             else
                 _currentStack = currentStack;
             
-            _dragState = ItemDragState.PickedUp;
+            if(isItemPickUp)
+                _dragStateType = ItemDragStateType.PickedUp;
             
             _itemIcon.sprite = pickUpable.PickUpableSO.ItemIcon;
             

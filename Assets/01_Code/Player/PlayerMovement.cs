@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using Code.Entities;
+using KWJ.Code.Entities;
 
-namespace Code.Players
+namespace KWJ.Code.Players
 {
     //플레이어의 모든 육체적 움직임 관리.
     public class PlayerMovement : MonoBehaviour, IEntityComponent

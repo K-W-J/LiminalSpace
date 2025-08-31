@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using Code.UI.Inventory;
-using Code.Entities;
+using KWJ.Code.Entities;
+using KWJ.Code.UI.Inventory;
 
-namespace Code.Players
+namespace KWJ.Code.Players
 {
     public class PlayerUseHandler : MonoBehaviour, IEntityComponent
     {

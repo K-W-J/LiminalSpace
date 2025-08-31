@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Code.Define;
+using KWJ.Code.Define;
 using UnityEngine;
 using UnityEngine.Events;
-using Code.Entities.FSM;
+using KWJ.Code.Entities.FSM;
 
-namespace Code.Entities
+namespace KWJ.Code.Entities
 {
     [DefaultExecutionOrder(-100)]
     public class Entity : MonoBehaviour
