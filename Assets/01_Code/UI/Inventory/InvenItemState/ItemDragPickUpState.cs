@@ -1,19 +1,18 @@
-﻿using UnityEngine;
+﻿using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace KWJ.Code.UI.Inventory
 {
     public class ItemDragPickUpState : ItemDragState
     {
-        protected override void OnLeftClick()
+        public override void Enter(PointerEventData eventData)
         {
-            base.OnLeftClick();
-            
+            m_eventData = eventData;
         }
-        
-        protected override void OnRightClick()
+
+        public override void StateUpdate()
         {
-            base.OnRightClick();
-            
+            m_currentItem.transform.position = Mouse.current.position.ReadValue();
         }
     }
 }

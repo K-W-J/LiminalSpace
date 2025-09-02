@@ -7,6 +7,13 @@ namespace KWJ.Code.Players
     public class PlayerMovement : MonoBehaviour, IEntityComponent
     {
         [SerializeField] private Rigidbody _rigidbody;
+        
+        [Header("Camera rotation")]
+        
+        [SerializeField] private int _cameraRotationSmooth;
+        [SerializeField] private int _cameraRotationZMaxClamp;
+        [SerializeField] private int _cameraRotationZMinClamp;
+        [SerializeField] private float _cameraRotationZSmoothSpeed;
 
         public bool IsJumping => _rigidbody.linearVelocity.y > 3;
         public bool IsFalling => _rigidbody.linearVelocity.y < -3;
@@ -25,7 +32,6 @@ namespace KWJ.Code.Players
         
         private float _moveSpeed;
         private float _cameraCurrentRotationZ;
-        private int _cameraRotationSmooth;
         private int _jumpPower;
 
         public void Initialize(Entity entity)
@@ -38,7 +44,6 @@ namespace KWJ.Code.Players
             {
                 _moveSpeed = _agent.PlayerStatsSo.WalkSpeed;
                 _jumpPower = _agent.PlayerStatsSo.JumpPower;
-                _cameraRotationSmooth = _agent.PlayerStatsSo.CameraRotationSmooth;
             }
         }
 

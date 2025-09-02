@@ -1,216 +1,142 @@
-﻿using KWJ.Code.Define;
+﻿using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using KWJ.Code.Interactable.PickUpable;
+using KWJ.Code.Define;
 
 namespace KWJ.Code.UI.Inventory
 {
-    public class InventoryItem : MonoBehaviour
+    public class InventoryItem : MonoBehaviour, IPlaceableInven
     {
         [SerializeField] private Image _itemIcon;
         [SerializeField] private TextMeshProUGUI _itemCountText;
-        [SerializeField] private CanvasGroup _canvasGroup;
+        
+        [SerializeField] private List<ItemDragState> _dragStates = new List<ItemDragState>();
+        public ItemDragState CurrentDragState => _currentDragState;
+        private ItemDragState _currentDragState;
+        public ItemDragStateType CurrentDragStateType { get; private set; }
+        public ItemDragStateType NextDragStateType { get; private set; }
+
+        private Dictionary<ItemDragStateType, ItemDragState> _states = new Dictionary<ItemDragStateType, ItemDragState>();
         public PickUpableObject CurrentPickUp => _currentPickUp;
         private PickUpableObject _currentPickUp;
-        
+        public InventoryManager InventoryManager => _inventoryManager;
         private InventoryManager _inventoryManager;
-        
         public InventorySlot CurrentSlot => _currentSlot;
         private InventorySlot _currentSlot;
-        
+        public Vector3 ReturnPosition => _returnPosition;
         private Vector3 _returnPosition;
         public int MaximumStack => _maximumStack;
         private int _maximumStack;
         public int CurrentStack => _currentStack;
         private int _currentStack;
-        
-        //첫 클릭 다음에 두번째 클릭하고 땔 때에 행동을 실행하기 위해 필요
-        public ItemDragStateType DragStateType => _dragStateType;
-        private ItemDragStateType _dragStateType = ItemDragStateType.Default;
         public bool CanStack => _currentStack < _maximumStack;
-        
-        public void OnBeginLeftDrag(PointerEventData eventData)
-        {
 
+        public void ChangeState(ItemDragStateType dragState, PointerEventData eventData) //현재 State를 설정
+        {
+            NextDragStateType = ItemDragStateType.None;
+            
+            _currentDragState.Exit();
+            _currentDragState = GetState(dragState);
+            _currentDragState.Enter(eventData);
         }
         
-        public void OnBeginRightDrag(PointerEventData eventData)
+        public void NextChangeState(ItemDragStateType dragState) // 다음에 올 State를 설정
         {
-            int halfA = _currentStack / 2;
-            if(halfA <= 0) return;
-                
-            int halfB = _currentStack - halfA;
-            _currentStack = halfA;
-
-            PickUpableObject halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
-            halfPickUp.AddStack(halfB);
-
-            InventoryItem invenItem = _inventoryManager.CreateInvenItem(transform.parent);
-            invenItem.InitInvenItem(halfPickUp, _inventoryManager, null, 0, true);
-                
-            invenItem.transform.position = _currentSlot.transform.position;
-            invenItem.transform.SetParent(transform.parent.parent.parent);
-                
-            _inventoryManager.SetCurrentItem(invenItem);
-                
-            SetStackText();
+            //버튼을 처음 눌렀을 때 -> 버튼을 처음 눌렀다가 땠을 때 -> 버튼을 두번째 눌르면서 땠을 때 -> 반복
+            NextDragStateType = dragState;
+            CurrentDragStateType = NextDragStateType;
         }
         
-        private void HandleDragDrop(PointerEventData eventData, PointerEventData.InputButton button)
+        private ItemDragState GetState(ItemDragStateType stateType)
         {
-            GameObject invenSlot = eventData.pointerCurrentRaycast.gameObject;
-
-            if (invenSlot == null)
+            foreach (var state in _states)
             {
-                RollBackCurrentSlot();
-                
+                if (state.Key == stateType)
+                {
+                    CurrentDragStateType = stateType;
+                    return state.Value;
+                }
+            }
+            
+            return null;
+        }
+        
+        public void OnLeftClick(InventoryItem item) // 매개변수 item의 모든 Stack을 현재 item에 합치기
+        {
+            if (item.IsCanItemStack(this) == false)
+            {
+                item.SwapSlot(this);
                 return;
             }
             
-            if (invenSlot.TryGetComponent<InventorySlot>(out var slot))
+            int remain = ModifyStack(item.CurrentStack);
+                        
+            if (remain > 0)
             {
-                if (button == PointerEventData.InputButton.Left)
-                {
-                    if (_currentSlot != null)
-                    {
-                        if(_currentSlot.InvenItem == this)
-                            _currentSlot.SetInvenSlotItem(null);
-                    }
-                    
-                    _currentSlot = slot;
-                    _currentSlot.SetInvenSlotItem(this);
-
-                    _returnPosition = _currentSlot.transform.position;
-
-                    RollBackCurrentSlot();
-                }
-                else
-                {
-                    PickUpableObject halfPickUp = Instantiate(_currentPickUp, _currentSlot.transform);
-                    halfPickUp.AddStack(1);
-
-                    InventoryItem invenItem = _inventoryManager.CreateInvenItem(slot.transform);
-                    invenItem.InitInvenItem(halfPickUp, _inventoryManager, _currentSlot);
-                    
-                    ModifyStack(-1);
-                    
-                    _dragStateType = ItemDragStateType.PickedUp;
-                    _canvasGroup.blocksRaycasts = true;
-                }
-                
-                return;
+                // 나머지가 있다면 매개변수 item의 Stack을 나머지로 초기화하고 PickUpState 유지하기
+                item.ModifyStack(remain, true);
+                item.PickUpStateMaintain();
             }
-            else if (invenSlot.TryGetComponent<InventoryItem>(out var item))
+            else
+                item.DestoryInvenItem();
+        }
+
+        public void OnRightClick(InventoryItem item) // 매개변수 item의 Stack 하나를 현재 item에 합치기
+        {
+            if (item.IsCanItemStack(this) == false)
             {
-                if (item.CurrentPickUp.PickUpableSO.ItemID == _currentPickUp.PickUpableSO.ItemID && item.CanStack)
-                {
-                    if (button == PointerEventData.InputButton.Left)
-                    {
-                        int remain = item.ModifyStack(CurrentStack);
-                        
-                        if (remain > 0)
-                        {
-                            ModifyStack(remain, true);
-                            _dragStateType = ItemDragStateType.PickedUp;
-                            _canvasGroup.blocksRaycasts = true;
-                        }
-                        else
-                            Destroy(gameObject);
-                        
-                        
-                    }
-                    else
-                    {
-                        item.ModifyStack(1);
-                        ModifyStack(-1);
-                        
-                        if (_currentStack > 0)
-                        {
-                            _dragStateType = ItemDragStateType.PickedUp;
-                            _canvasGroup.blocksRaycasts = true;
-                        }
-                        else
-                            Destroy(gameObject);
-                    }
-                }
-                else
-                {
-                    SwapSlot(item);
-                }
-                
+                item.PickUpStateMaintain();
                 return;
             }
             
-            RollBackCurrentSlot();
-        }
-        
-        public void OnEndLeftDrag(PointerEventData eventData)
-        { 
-            HandleDragDrop(eventData, PointerEventData.InputButton.Left);
-        }
-        
-        public void OnEndRightDrag(PointerEventData eventData)
-        {
-            HandleDragDrop(eventData, PointerEventData.InputButton.Right);
-        }
-
-        public void ChangeDragState()
-        {
-            if (_dragStateType == ItemDragStateType.Default)
+            ModifyStack(1);
+            item.ModifyStack(-1);
+                        
+            if (item.CurrentStack > 0)
             {
-                _dragStateType = ItemDragStateType.PickedUp;
-                    
-                _inventoryManager.SetCurrentItem(this);
-                MoveInvenItem();
+                // 나머지가 있다면 매개변수 item의 Stack을 나머지로 초기화하고 PickUpState 유지하기
+                item.PickUpStateMaintain();
             }
-            else if(_dragStateType == ItemDragStateType.PickedUp)
-            {
-                _dragStateType = ItemDragStateType.Placing;
-                _canvasGroup.blocksRaycasts = false;
-            }
+            else
+                item.DestoryInvenItem();
         }
 
         private void SwapSlot(InventoryItem item)
         {
             SetCurrentSlot(item.CurrentSlot);
-
-            item.MoveInvenItem();
-            _inventoryManager.SetCurrentItem(item);
-        }
-
-        private void RollBackCurrentSlot()
-        {
-            _dragStateType = ItemDragStateType.Default;
-            _inventoryManager.SetCurrentItem(null);
-            
-            if(_currentSlot != null)
-                transform.SetParent(_currentSlot.transform);
-            
             transform.position = _returnPosition;
-            _canvasGroup.blocksRaycasts = true;
-        }
+            
+            if (_currentSlot != null)
+            {
+                NextChangeState(ItemDragStateType.ClickBefore);
+            }
 
-        private void MoveInvenItem()
+            _inventoryManager.SetCurrentItem(item);
+            
+            item.PickUpInvenItem();
+            item.ChangeState(ItemDragStateType.PickedUp, null);
+            item.NextChangeState(ItemDragStateType.Placing);
+        }
+        public void PickUpInvenItem()
         {
-            _dragStateType = ItemDragStateType.PickedUp;
+            if(_currentSlot == null) return;
+
             transform.SetParent(transform.parent.parent.parent);
             _returnPosition = _currentSlot.transform.position;
         }
         
-        public void SetCurrentSlot(InventorySlot item)
+        public void SetCurrentSlot(InventorySlot slot)
         {
-            if(_currentSlot != null)
-                _currentSlot.SetInvenSlotItem(null);
-            
-            _currentSlot = item;
+            _currentSlot = slot;
             _currentSlot.SetInvenSlotItem(this);
             
             transform.SetParent(_currentSlot.transform);
             _returnPosition = _currentSlot.transform.position;
         }
-
+        
         public int ModifyStack(int stack, bool isStackReset = false)
         {
             if (isStackReset)
@@ -252,14 +178,46 @@ namespace KWJ.Code.UI.Inventory
             else
                 _currentStack = currentStack;
             
-            if(isItemPickUp)
-                _dragStateType = ItemDragStateType.PickedUp;
-            
             _itemIcon.sprite = pickUpable.PickUpableSO.ItemIcon;
             
             SetStackText();
+            
+            foreach (var state in _dragStates)
+            {
+                state.Initialize(this);
+                _states[state.DragStateType] = state;
+            }
+
+            if (isItemPickUp)
+            {
+                _currentDragState = GetState(ItemDragStateType.PickedUp);
+                _inventoryManager.SetCurrentItem(this);
+                NextChangeState(ItemDragStateType.Placing);
+            }
+            else
+            {
+                _currentDragState = GetState(ItemDragStateType.ClickBefore);
+            }
+        }
+        
+        //PickUpState 상태 유지시키기
+        public void PickUpStateMaintain()
+        {
+            ChangeState(ItemDragStateType.PickedUp, null);
+            NextChangeState(ItemDragStateType.Placing);
+        }
+        public void SetStackText() => _itemCountText.text = _currentStack.ToString();
+        
+        public void DestoryInvenItem()
+        {
+            Destroy(gameObject);
         }
 
-        private void SetStackText() => _itemCountText.text = _currentStack.ToString();
+        private bool IsCanItemStack(InventoryItem item)
+        {
+           return item.CurrentPickUp.PickUpableSO.ItemID == _currentPickUp.PickUpableSO.ItemID
+                  && item.CanStack;
+        }
+
     }
 }

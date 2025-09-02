@@ -112,7 +112,7 @@ namespace KWJ.Code.Random
                 case GRADE.None:
                 case GRADE.Max:
                 {
-                    Debug.LogWarning("Default 이거나 Max 이다.");
+                    Debug.LogWarning("ClickBefore 이거나 Max 이다.");
                     return null;
                 }
                 default:

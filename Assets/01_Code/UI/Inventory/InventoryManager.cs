@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.InputSystem;
 using UnityEngine;
-using KWJ.Code.Define;
 using KWJ.Code.Interactable.PickUpable;
 
 namespace KWJ.Code.UI.Inventory
@@ -30,10 +28,8 @@ namespace KWJ.Code.UI.Inventory
 
         private void Update()
         {
-            if(_isCurrentItemNull) return;
-            
-            if(_currentItem.DragStateType == Define.ItemDragStateType.PickedUp)
-                _currentItem.transform.position = Mouse.current.position.ReadValue();
+            if(!_isCurrentItemNull)
+                _currentItem.CurrentDragState.StateUpdate();
         }
 
         public void SetCurrentItem(InventoryItem item)

@@ -34,7 +34,7 @@ namespace KWJ.Code.Define
     {
         None = -1,
         
-        Default,        // 기본 상태
+        ClickBefore,  // 첫번째 클릭
         PickedUp,    // 들어올린 상태 (첫 클릭)
         Placing,      // 놓는 중 (두 번째 클릭에서 포인터 뗄 때)
         

@@ -38,10 +38,6 @@ namespace KWJ.Code.Players
             _agent.PlayerInputSo.OnEsc -= OnEse;
         }
 
-        private void Update()
-        {
-            
-        }
         private void OnEse()
         {
             if(_rootUI.GetPanel(PanelType.Pause) == null) return;
@@ -62,7 +58,18 @@ namespace KWJ.Code.Players
         
         private void OnOpenInventory()
         {
-            
+            if(_rootUI.GetPanel(PanelType.Inventory) == null) return;
+                
+            if (!_rootUI.GetPanel(PanelType.Inventory).gameObject.activeSelf)
+            {
+                _rootUI.GetPanel(PanelType.Inventory).gameObject.SetActive(true);
+                CursorActive(true);
+            }
+            else
+            {
+                _rootUI.GetPanel(PanelType.Inventory).gameObject.SetActive(false);
+                CursorActive(false);
+            }
         }
         
         public void CursorActive(bool isActive)
